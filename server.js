@@ -3,7 +3,6 @@ import { PromptTemplate } from "@langchain/core/prompts";
 import { config } from "dotenv";
 config();
 
-
 const promptTemplate = new PromptTemplate({
   template: `explain {topic} in very simple way like ELI5, make sure to include the core concepts and avoid unnecessary jargons. make the answer as concise as possible.`,
   inputVariables: ["topic"],
@@ -26,7 +25,8 @@ const model = new ChatGoogleGenerativeAI({
 
 async function main() {
   try {
-    const res = await promptTemplate.pipe(model).invoke({ topic: "AI" });
+    const chain = promptTemplate.pipe(model);
+    const res = await chain.invoke({ topic: "Cloud Computing" });
     console.log(res.content);
   } catch (err) {
     console.error("Error:", err);
